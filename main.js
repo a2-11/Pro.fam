@@ -75,6 +75,7 @@
         const method = 'artist.getSimilar';
         const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
+
         fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -111,6 +112,7 @@
     const fetchTopTracks = (artist) => {
         const method = 'artist.getTopTracks';
         const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+
 
         fetch(url)
             .then(response => {
