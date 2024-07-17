@@ -6,7 +6,12 @@
         const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 const output = document.getElementById('artistInfo');
                 if (!output) {
@@ -20,7 +25,13 @@
                                         <p>${data.artist.bio.summary}</p>`;
                 }
             })
-            .catch(error => console.error('Fetch error:', error));
+            .catch(error => {
+                console.error('Fetch error:', error);
+                const output = document.getElementById('artistInfo');
+                if (output) {
+                    output.innerHTML = `Fetch error: ${error.message}`;
+                }
+            });
     };
 
     const fetchArtistTopAlbums = (artist) => {
@@ -28,7 +39,12 @@
         const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 const output = document.getElementById('artistTopAlbums');
                 if (!output) {
@@ -46,15 +62,26 @@
                     output.innerHTML = albums;
                 }
             })
-            .catch(error => console.error('Fetch error:', error));
+            .catch(error => {
+                console.error('Fetch error:', error);
+                const output = document.getElementById('artistTopAlbums');
+                if (output) {
+                    output.innerHTML = `Fetch error: ${error.message}`;
+                }
+            });
     };
-    
+
     const fetchSimilarArtists = (artist) => {
         const method = 'artist.getSimilar';
-       const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+        const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 const output = document.getElementById('similarArtists');
                 if (!output) {
@@ -72,16 +99,26 @@
                     output.innerHTML = artists;
                 }
             })
-            .catch(error => console.error('Fetch error:', error));
+            .catch(error => {
+                console.error('Fetch error:', error);
+                const output = document.getElementById('similarArtists');
+                if (output) {
+                    output.innerHTML = `Fetch error: ${error.message}`;
+                }
+            });
     };
 
     const fetchTopTracks = (artist) => {
         const method = 'artist.getTopTracks';
         const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
-
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 const output = document.getElementById('topTracks');
                 if (!output) {
@@ -99,7 +136,13 @@
                     output.innerHTML = tracks;
                 }
             })
-            .catch(error => console.error('Fetch error:', error));
+            .catch(error => {
+                console.error('Fetch error:', error);
+                const output = document.getElementById('topTracks');
+                if (output) {
+                    output.innerHTML = `Fetch error: ${error.message}`;
+                }
+            });
     };
 
     document.getElementById('artistForm').addEventListener('submit', (event) => {
