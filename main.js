@@ -3,7 +3,7 @@
 
     const fetchArtistInfo = (artist) => {
         const method = 'artist.getInfo';
-        const url = `http://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+        const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
         fetch(url)
             .then(response => response.json())
@@ -25,8 +25,8 @@
 
     const fetchArtistTopAlbums = (artist) => {
         const method = 'artist.getTopAlbums';
-        const url = `http://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
-    
+        const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -51,7 +51,7 @@
     
     const fetchSimilarArtists = (artist) => {
         const method = 'artist.getSimilar';
-        const url = `http://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+       const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
         fetch(url)
             .then(response => response.json())
@@ -77,7 +77,8 @@
 
     const fetchTopTracks = (artist) => {
         const method = 'artist.getTopTracks';
-        const url = `http://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+        const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
+
 
         fetch(url)
             .then(response => response.json())
