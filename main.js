@@ -5,6 +5,8 @@
         const method = 'artist.getInfo';
         const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&api_key=${lastfmApiKey}&format=json`;
 
+
+        
         fetch(url)
             .then(response => {
                 if (!response.ok) {
