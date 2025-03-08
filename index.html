@@ -1,96 +1,403 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" dir="ltr" data-bs-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Last.fm API </title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #181818;
-            color: #d0d0d0;
-            margin: 0;
-            padding: 20px;
-        }
 
-        h1 {
-            text-align: center;
-            color: #d51007;
-            font-size: 2.5em;
-        }
+    <!-- Include JavaScript for color modes -->
+    <script src="./assets/js/color-modes.js"></script>
 
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #282828;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        label {
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #d0d0d0;
-        }
+    <!-- Update the 'content' attribute to reflect the actual content description -->
+    <meta name="description" content="your_description_goes_here">
 
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #444;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            background-color: #333;
-            color: #d0d0d0;
-        }
+    <!-- Modify the 'content' attribute to include appropriate keywords -->
+    <meta name="keywords" content="your_keywords_goes_here">
 
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            background-color: #d51007;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1em;
-        }
+    <meta name="author" content="tigmatemplate">
+    <meta name="generator" content="Bootstrap">
 
-        button:hover {
-            background-color: #a40d05;
-        }
+    <!-- Change the text within the <title> tag to match the webpage's content -->
+    <title>Mindtech</title>
 
-        .output {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            background: #282828;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            color: #d0d0d0;
-        }
-        
-        @media (max-width: 600px) {
-            form {
-                width: 90%;
-            }
-        }
-        
-    </style>
+    <!-- 
+        Set the website's favicon and Apple touch icon using the files in the assets/logo folder. You can change these files to your own icons by replacing them with the same names and sizes.
+
+        Be careful if you change the site.webmanifest file, as you need to update the src attribute of the icons array to match the new path of your icon files. Otherwise, your icons may not display correctly on some devices. 
+    -->
+	<link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="MyWebSite" />
+	<link rel="manifest" href="assets/favicon/site.webmanifest" />
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./assets/libraries/glide/css/glide.core.min.css">
+    <link rel="stylesheet" href="./assets/libraries/aos/aos.css">
+    <link rel="stylesheet" href="./assets/css/main.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <!-- Update the 'title' and 'description' content below to enhance social sharing -->
+    <meta property="og:title" content="your_title_goes_here">
+    <meta property="og:description" content="your_description_goes_here">
+    <!-- Update with actual absolute image URL like: https://example.com/main.jpg -->
+    <meta property="og:image" content="your_absolute_image_url_goes_here">
+    <!-- Update with the absolute URL of the content like: https://example.com/index.html -->
+    <meta property="og:url" content="your_absolute_content_url_goes_here">
+    <!-- Update with the type of object you’re sharing. (e.g., article, website, etc.) -->
+    <meta property="og:type" content="website">
+    <!-- Defines the content language -->
+    <meta property="og:locale" content="en_US">
+
+    
+    <!-- X/Twitter Card Meta Tags for Social Sharing -->
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Update with your X/Twitter handle -->
+    <meta name="twitter:site" content="@yourtwitterhandle"> 
+    <!-- Update the 'title' and 'description' content below to enhance social sharing -->
+    <meta name="twitter:title" content="your_title_goes_here"> 
+    <meta name="twitter:description" content="your_description_goes_here">
+    <!-- Update with actual absolute image URL like: https://example.com/main.jpg -->
+    <meta name="twitter:image" content="your_absolute_image_url_goes_here"> 
+    
+    <!-- 
+        The following line specifies the canonical URL for this page.
+        Replace your_canonical_url_goes_here with the actual canonical URL if needed like: https://example.com/index.html
+        Or just remove it!!!!
+    -->
+    <link rel="canonical" href="your_canonical_url_goes_here">
+
 </head>
 <body>
-    <h1>Last.fm API</h1>
-    <form id="artistForm">
-        <label for="artistInput">Enter Artist</label>
-        <input type="text" id="artistInput" name="artistInput" required>
-        <button type="submit">Search Artist</button>
-    </form>
 
-    <div class="output" id="artistInfo"></div>
-    <div class="output" id="artistTopAlbums"></div>
-    <div class="output" id="similarArtists"></div>
-    <div class="output" id="topTracks"></div>
-    <script src="main.js"></script>
+
+    <!-- loader-wrapper -->
+    <div class="loader-wrapper">
+        <div class="spinner-border text-primary p-5" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+
+	<!-- header top -->
+	<header class="navigation position-absolute w-100 shadow border-bottom border-light border-opacity-10 rounded-bottom-3 rounded-bottom-sm-4" style="background-color: white; color: black">
+		<nav class="navbar navbar-expand-xl" aria-label="Offcanvas navbar large">
+			<div class="container py-1">
+				<a href="index.html" class="navbar-brand">
+					<img src="./assets/img/mindTechLogo.png" height="80" alt="logo">
+				</a>
+
+				<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="offcanvas offcanvas-end border-0 rounded-start-0 rounded-start-sm-4" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+					<div class="offcanvas-header" style="padding: 2rem 2rem 1.5rem 2rem;">
+						<h5 class="offcanvas-title m-0" id="offcanvasNavbar2Label">
+							<a class="navbar-brand" href="javascript:;">
+								<img src="./assets/img/mindTechLogo.png" height="82" alt="logo">
+							</a>
+						</h5>
+						<button type="button" class="btn-close text-body-emphasis" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+
+					<div class="offcanvas-body">
+						<ul class="navbar-nav align-items-xl-center flex-grow-1 column-gap-4 row-gap-4 row-gap-xl-2">
+							<li class="nav-item ms-xl-auto">
+								<a href="./index.html" class="px-3 bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold" aria-current="page" style="color: black;">
+									Home
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="./about.html" class="px-3 bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold" style="color: black;">
+									About
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="./activities.html" class="px-3 bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold" style="color: black;">
+									Activities
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="./academics.html" class="px-3 bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold" style="color: black;">
+									Academics
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="./events.html" class="px-3 bg-body-secondary-hover nav-link rounded-3 text-base leading-6 fw-semibold" style="color: black;">
+									Events
+								</a>
+							</li>
+
+							<li class="nav-item ms-xl-auto">
+								<a href="./contact.html" class="px-3 bg-body-secondary-hover border nav-link rounded-3 text-base leading-6 fw-semibold text-center" style="background-color: rgba(0, 128, 0, 0.788); color: white">
+									Contact us
+								</a>
+							</li>
+
+							<!-- Social Links -->
+							<li class="nav-item">
+								<a href="https://www.facebook.com" class="nav-link" style="color: black;" target="_blank">
+									<i class="fab fa-facebook-f"></i> <!-- Facebook Icon -->
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="https://www.twitter.com" class="nav-link" style="color: black;" target="_blank">
+									<i class="fab fa-twitter"></i> <!-- Twitter Icon -->
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="https://www.instagram.com" class="nav-link" style="color: black;" target="_blank">
+									<i class="fab fa-instagram"></i> <!-- Instagram Icon -->
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!-- Include Font Awesome for icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+	<!-- header body -->
+	<div class="overflow-hidden position-relative">
+	   <img src="./assets/img/frontPage.jpg" class="position-absolute z-n1 top-0 h-100 w-100 object-fit-cover" alt="Meeting">
+
+	   <div class="overlay position-absolute z-n1 top-0 h-100 w-100"
+	        style="opacity: 0.85; mix-blend-mode: multiply; filter: contrast(1.15) brightness(0.85);">
+	    </div>
+
+	    <div class="container">
+	        <div class="min-vh-100 row align-items-center">
+	        	<div class="col-12 col-xl-8">
+		            <div class="pt-9 pt-md-10 pt-xl-11 pb-7 pb-md-8 pb-xl-9 max-w-2xl mx-auto mx-xl-0">
+		                <div class="mt-4 pt-2">
+		                    <div class="text-center text-xl-start">
+		                        <h1 class="m-0 tracking-tight text-6xl" data-aos-delay="0" data-aos="fade" data-aos-duration="3000" style="font-family: 'Times New Roman', Times, serif;color: rgb(0, 128, 0);">
+		                            Welcome to MINDTECH - Leader in Technology!
+		                        </h1>
+		                        <p class="m-0 mt-4 text-white text-lg leading-8" data-aos-delay="100" data-aos="fade" data-aos-duration="3000">
+		                            At Mindtech, we are dedicated to transforming futures through cutting-edge education and training. Our goal is to empower individuals with the knowledge and skills needed to excel in today’s fast-paced technological world.
+		                        </p>
+		                        <div class="mt-4 pt-3 d-flex align-items-center justify-content-center justify-content-xl-start column-gap-3">
+		                            <a href="academics.html" class="btn btn-lg text-white text-sm fw-semibold" data-aos-delay="200" data-aos="fade" data-aos-duration="3000" style="background-color: rgba(0, 128, 0, 0.788);">
+		                                Our Academics
+		                            </a>
+		                            <a href="about.html" class="btn btn-lg text-white icon-link icon-link-hover text-sm leading-6 fw-semibold" data-aos-delay="300" data-aos="fade" data-aos-duration="3000">
+		                                Learn more 
+		                                <span class="bi align-self-start left-to-right" aria-hidden="true">→</span>
+		                                <span class="bi align-self-start right-to-left" aria-hidden="true">←</span>
+		                            </a>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+	            </div>
+
+	            <div class="col-12 col-xl-4">
+					<div class="pt-3 pt-md-4 pt-xl-12 pb-2 pb-md-3 pb-xl-6">
+						<!-- Button trigger modal -->
+						<a class="video-play-button video-btn-modal position-relative" href="javascript:;"
+							data-bs-toggle="modal" data-bs-target="#videoModal"
+							data-bs-src="https://www.youtube.com/embed/EX0TcLgOPv0">
+							<span class="top-50 start-50 translate-middle"></span>
+						</a>
+					</div>
+				</div>
+	        </div>
+	    </div>
+	</div> 
+
+
+
+	<!-- Modal to embed vidoes!! -->
+	<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content border-0" style="border-radius: 0.75rem;">
+				<div class="modal-header border-0 p-0">
+					<button type="button" class="btn-close bg-white border position-absolute top-0 end-0 translate-middle me-n3 me-sm-n5 mt-n4 rounded-circle p-2" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body p-0">
+					<div class="ratio ratio-16x9">
+						<iframe class="embed-responsive-item iframeVideo" style="border-radius: 0.75rem;" allow="autoplay"></iframe>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- services -->
+	<div class="overflow-hidden py-7 py-sm-8 py-xl-5" style="background-color: white">
+	    <div class="container">
+	        <div>
+	            <div class="mx-auto text-center">
+					<p style="color: black;font-weight: bold; font-size: 190%;font-family: 'Times New Roman', Times, serif;">
+						Program Overview
+					</p>
+	                <p style="color: #76767F">
+	                    Mindtech is a premier destination for quality education and training. Whether you’re looking to advance your career, learn new skills, or simply explore new interests, we offer a wide range of programs tailored to meet your needs. With a focus on practical knowledge and real-world applications, our courses are designed to be engaging, interactive, and effective.
+	                </p>
+	            </div>
+	        </div>
+	        <div>
+	            <div class="row row-cols-1 row-cols-xl-3 gy-5 gx-xl-4 mt-1 justify-content-center justify-content-xl-between">
+	                <div class="col pt-5 pt-xl-4">
+	                    <div class="max-w-xl mx-auto mx-xl-0" data-aos-delay="0" data-aos="fade" data-aos-duration="1000">
+                        	<div class="ratio" style="--bs-aspect-ratio: 66.66%;">
+                                <img src="assets/img/overview1.png" class="object-fit-cover rounded-0" alt="Service image" loading="lazy">
+                            </div>
+
+                            <h3 class="m-0 mt-4 text-center" style="color: black; font-weight: bold;font-family: 'Times New Roman', Times, serif;">
+                                ICT Enrichment Program
+                            </h3>
+
+                            <!-- Remove line-clamp-2 if you need more lines or add line-clamp-3 -->
+                            <p class="m-0 mt-3 line-clamp-4 text-sm leading-6 text-center" style="color: #76767F;">
+                                Stay ahead in the fast-evolving world of technology with our ICT training programs. From coding and software development to cybersecurity and data management, we cover essential topics to help you thrive in the tech industry.
+                            </p>
+	                    </div>
+	                </div>
+      				
+      				<div class="col pt-5 pt-xl-4">
+	                    <div class="max-w-xl mx-auto mx-xl-0" data-aos-delay="100" data-aos="fade" data-aos-duration="1000">
+                        	<div class="ratio" style="--bs-aspect-ratio: 66.66%;">
+                                <img src="assets/img/overview2.png" class="object-fit-cover rounded-0" alt="Service image" loading="lazy">
+                            </div>
+
+                            <h3 class="m-0 mt-4 text-center" style="color: black; font-weight: bold;font-family: 'Times New Roman', Times, serif;">
+                                Online Tutorial Class
+                            </h3>
+
+                            <!-- Remove line-clamp-2 if you need more lines or add line-clamp-3 -->
+                            <p class="m-0 mt-3 line-clamp-4 text-sm leading-6 text-center" style="color: #76767F;">
+                                Join our live online classes and interact directly with instructors and peers. These classes provide a dynamic learning environment where you can ask questions, participate in discussions, and collaborate on projects.
+                            </p>
+	                    </div>
+	                </div>
+
+	                <div class="col pt-5 pt-xl-4">
+	                    <div class="max-w-xl mx-auto mx-xl-0" data-aos-delay="200" data-aos="fade" data-aos-duration="1000">
+                        	<div class="ratio" style="--bs-aspect-ratio: 66.66%;">
+                                <img src="assets/img/overview3.png" class="object-fit-cover rounded-0" alt="Service image" loading="lazy">
+                            </div>
+
+                            <h3 class="m-0 mt-4 text-center" style="color: black; font-weight: bold;font-family: 'Times New Roman', Times, serif;">
+                                Training Center
+                            </h3>
+
+                            <!-- Remove line-clamp-2 if you need more lines or add line-clamp-3 -->
+                            <p class="m-0 mt-3 text-center line-clamp-4 text-sm leading-6" style="color: #76767F;">
+                                Our training programs cover a variety of fields, from business and technology to creative arts. Each course is designed to provide hands-on experience and valuable skills that you can apply immediately.
+                            </p>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+
+	        <div class="text-center pt-7">
+	            <a href="javascript:;" class="btn btn-lg text-white icon-link icon-link-hover text-sm leading-6 fw-semibold" style="background-color: green;">
+                    Learn more 
+                    <span class="bi align-self-start left-to-right" aria-hidden="true">→</span>
+                    <span class="bi align-self-start right-to-left" aria-hidden="true">←</span>
+                </a>
+	        </div>
+	    </div>      
+	</div>	
+
+	<!-- About Us -->
+	<div class="overflow-hidden py-9 py-sm-8 py-xl-9" style="background-color: #e9e6e6">
+		<div class="container">
+			<div class="row gy-5 align-items-center justify-content-between">
+		
+						<i style="text-align: center;font-size: 24px;color: #76767F;font-family: Georgia, 'Times New Roman', Times, serif;">We aim at inspiring our students to dream more, learn more, do more, and become more in their respective journeys of life.</i>
+
+			</div>
+
+			
+		</div>
+	</div>
+
+
+
+	<!-- About Us -->
+	<div class="overflow-hidden py-9 py-sm-8 py-xl-9" style="background-color: white">
+		<div class="container">
+			<div class="row gy-5 align-items-center justify-content-between">
+				<div class="col-12 col-xl-5 order-last">
+					<div class="mx-auto max-w-2xl">
+						<h1 class="m-0 mt-4" style="color: black;font-weight: bold;font-family: 'Times New Roman', Times, serif;">
+							About Us
+						</h1>
+						<p class="m-0 mt-4 text-lg leading-8" style="color: rgba(0, 128, 0, 0.788);font-weight: bold;"						; font-size: 120%;">
+							Unlock your potential with expert-led courses in a dynamic online environment. From ICT training to personalized tutorials, our comprehensive programs are designed to help you excel in today’s digital world
+						</p>
+						<p class="m-0 mt-4 text-lg leading-8" style="color: black; font-weight: bold">
+							Mindtech is at the forefront of technology education and training. We offer a range of programs designed to cater to various learning needs, from professional development to personal enrichment. Our commitment is to provide high-quality, practical education that prepares you for success in the ever-evolving tech landscape.
+						</p>
+						
+
+					</div>
+				</div>
+
+				<div class="col-12 col-xl-6">
+					<div class="mx-auto max-w-2xl">
+                        <div class="ratio ratio-16x9" data-aos-delay="0" data-aos="fade" data-aos-duration="3000" style="height: 520px;">
+                            <img src="./assets/img/building.jpg" class="object-fit-cover rounded-0" alt="about us" loading="lazy">
+                        </div>
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+
+
+
+
+	<footer class="overflow-hidden py-4 py-sm-4 py-xl-4" style="background-color: black; color: white">
+
+	    
+		<div class="order-last order-xl-first" style="color: white">
+			<p style="text-align: center; color: white !important">
+				Copyright © 2025 Mindtech | Powered by <span  style="color: rgba(0, 128, 0, 0.788); font-weight: bold">Mindtech.</span>
+			</p>
+		</div>
+	</footer>
+
+
+	<!-- Back to top button -->
+	<button type="button" class="btn btn-back-to-top justify-content-center align-items-center p-2 text-white" style="background-color: rgba(0, 128, 0, 0.788); border-radius: 0;">
+		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16"> <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/> </svg>
+	</button>
+
+	<!-- Bootstrap JavaScript: Bundle with Popper -->
+	<script src="./assets/libraries/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="./assets/libraries/glide/glide.min.js"></script>
+	<script src="./assets/libraries/aos/aos.js"></script>
+	<script src="./assets/js/scripts.js"></script>
+    <script src="./assets/php/contact/script.js"></script>
+
+
+
+
+	
+
+
+
 </body>
 </html>
